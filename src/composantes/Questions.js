@@ -157,6 +157,24 @@ class Questions extends Component {
         }
     }
 
+    sendAnswerChoice = async (responce) => {
+
+        // Si Web3 est connecté
+        const {web3Account} = this.state.isConnected;
+        if (web3Account) {
+
+            // Exécution d'une requete sur le Contract Solidity
+            this.contract.methods.addAnswer(responce).send({from: web3Account}).then((result) => {
+
+                console.log("addAnswer result ",result);
+
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    }
+
+
     questionAndResponceExist() {
         return (this.state.question && this.state.answerChoices[0]);
     }
@@ -171,7 +189,7 @@ class Questions extends Component {
             const responces = this.state.answerChoices;
 
             return (
-                <Question question={question} responces={responces}/>
+                <Question question={question} responces={responces} sendAnswerChoice={this.sendAnswerChoice}/>
             )
         }
     }

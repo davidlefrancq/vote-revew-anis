@@ -30,14 +30,21 @@ class Question extends Component {
             case "block":
                 this.changeModalDisplay("none");
                 break;
-
         }
-
     }
 
-    renderResponce(responce) {
+    buttonHandle = (value) => {
+        this.props.sendAnswerChoice(value);
+    }
+
+    renderResponce(responce, index) {
         return (
-            <button>
+            <button
+                key={index}
+                onClick={() => {
+                    this.buttonHandle(index);
+                }}
+            >
                 {responce}
             </button>
         );
@@ -46,8 +53,8 @@ class Question extends Component {
     renderResponces() {
         const {responces} = this.props;
         if (responces) {
-            return responces.map((responce) => {
-                return this.renderResponce(responce);
+            return responces.map((responce, index) => {
+                return this.renderResponce(responce, index);
             });
         }
     }
